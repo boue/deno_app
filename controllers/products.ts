@@ -22,6 +22,8 @@ let products: Product[] = [
   },
 ];
 
+// GET all products
+// http://localhost:5000/api/v1/products
 const getProducts = ({ response }: { response: any }) => {
   response.body = {
     success: true,
@@ -29,4 +31,28 @@ const getProducts = ({ response }: { response: any }) => {
   };
 };
 
-export { getProducts };
+// GET single product
+// http://localhost:5000/api/v1/products/:id
+const getProduct = (
+  { params, response }: { params: { id: string }; response: any },
+) => {
+  const product: Product | undefined = products.find((product) =>
+    product.id === params.id
+  );
+
+  if (product) {
+    response.status = 200;
+    response.body = {
+      success: true,
+      data: product,
+    };
+  } else {
+    response.status = 404;
+    response.body = {
+      success: false,
+      msg: "No product found",
+    };
+  }
+};
+
+export { getProducts, getProduct };
