@@ -21,3 +21,12 @@ let products: Product[] = [
     price: 12,
   },
 ];
+
+const getProducts = ({ response }: { response: any }) => {
+  response.body = {
+    success: true,
+    data: products,
+  };
+};
+
+export { getProducts };
