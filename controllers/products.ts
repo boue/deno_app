@@ -81,4 +81,42 @@ const addProduct = async (
   }
 };
 
-export { getProducts, getProduct, addProduct };
+// UPDATE one product
+// PUT http://localhost:5000/api/v1/products/:id
+
+const updateProduct = async (
+  { params, request, response }: {
+    params: { id: string };
+    request: any;
+    response: any;
+  },
+) => {
+  const product: Product | undefined = products.find((product) =>
+    product.id === params.id
+  );
+
+  if (product) {
+    const body = await request.body();
+
+    const updateData: { name?: string; description?: string; price?: number } =
+      body.value;
+
+    products = products.map((product) =>
+      product.id === params.id ? { ...product, ...updateData } : product
+    );
+
+    response.status = 200;
+    response.body = {
+      success: true,
+      data: products,
+    };
+  } else {
+    response.status = 404;
+    response.body = {
+      success: false,
+      msg: "No product found",
+    };
+  }
+};
+
+export { getProducts, getProduct, addProduct, updateProduct };
