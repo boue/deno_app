@@ -119,4 +119,20 @@ const updateProduct = async (
   }
 };
 
-export { getProducts, getProduct, addProduct, updateProduct };
+// DELETE one product
+// DELETE http://localhost:5000/api/v1/products/:id
+
+const deleteProduct = (
+  { params, response }: {
+    params: { id: string };
+    response: any;
+  },
+) => {
+  products = products.filter((product) => product.id !== params.id);
+  response.body = {
+    success: true,
+    msg: "Product removed",
+  };
+};
+
+export { getProducts, getProduct, addProduct, updateProduct, deleteProduct };
